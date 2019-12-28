@@ -1,0 +1,146 @@
+{
+  "properties": {
+    "displayName": "DeployIfNotExistsEventHubNetworkRuleSets",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "DeployIfNotExists",
+      "createdBy": "87fd8199-7ff8-4959-8c71-ca92073703da",
+      "createdOn": "2019-11-01T20:38:13.5719446Z",
+      "updatedBy": "87fd8199-7ff8-4959-8c71-ca92073703da",
+      "updatedOn": "2019-11-05T23:15:31.0473031Z"
+    },
+    "parameters": {
+      "allowedIps": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allow IPs for event hub firewall",
+          "description": "List of IPs allowed for event hub firewall"
+        },
+        "defaultValue": []
+      },
+      "resourceGroupName": {
+        "type": "String",
+        "metadata": {},
+        "defaultValue": "payg_arm_crg"
+      },
+      "virtualNetworkName": {
+        "type": "String",
+        "metadata": {},
+        "defaultValue": "roriek-eventhub-vnet"
+      },
+      "subnetName": {
+        "type": "String",
+        "metadata": {},
+        "defaultValue": "default"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.EventHub/namespaces"
+      },
+      "then": {
+        "effect": "deployIfNotExists",
+        "details": {
+          "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.EventHub/namespaces/networkRuleSets/default.defaultAction",
+                "equals": "Deny"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.EventHub/namespaces/networkRuleSets/default.ipRules[*].ipMask",
+                  "notLike": "*"
+                }
+              },
+              {
+                "field": "Microsoft.EventHub/namespaces/networkRuleSets/default.ipRules[*].ipMask",
+                "in": "[parameters('allowedIps')]"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "eventHubName": {
+                    "type": "String"
+                  },
+                  "location": {
+                    "type": "String"
+                  },
+                  "resourceGroupName": {
+                    "type": "String"
+                  },
+                  "virtualNetworkName": {
+                    "type": "String"
+                  },
+                  "subnetName": {
+                    "type": "String"
+                  }
+                },
+                "variables": {
+                  "subNetId": "[resourceId(parameters('resourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets',parameters('virtualNetworkName'),parameters('subnetName'))]"
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+                    "apiVersion": "2017-04-01",
+                    "name": "[concat(parameters('eventHubName'), '/', 'default')]",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "defaultAction": "Deny",
+                      "virtualNetworkRules": [
+                        {
+                          "subnet": {
+                            "id": "[variables('subNetId')]"
+                          },
+                          "ignoreMissingVnetServiceEndpoint": false
+                        }
+                      ],
+                      "ipRules": [
+                        {
+                          "ipMask": "0.0.0.0/0",
+                          "action": "Allow"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "eventHubName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "resourceGroupName": {
+                  "value": "[parameters('resourceGroupName')]"
+                },
+                "virtualNetworkName": {
+                  "value": "[parameters('virtualNetworkName')]"
+                },
+                "subnetName": {
+                  "value": "[parameters('subnetName')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "id": "/subscriptions/8dfd8d5e-7c53-4419-88df-f7ddcdb129e2/providers/Microsoft.Authorization/policyDefinitions/f27de643-b56b-4485-82e0-b43b19335c32",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "f27de643-b56b-4485-82e0-b43b19335c32"
+}

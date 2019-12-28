@@ -1,0 +1,121 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "windowsSku":{
+            "defaultValue": "2016-DataCenter",
+            "type":"string"
+        }
+    },
+    "variables": {
+        "store":"[concat(uniqueString(resourceGroup().id),'roriek')]",
+        "vnet":"vnet_roriek",
+        "subnet":"subnet_roriek",
+        "pip":"pip_roriek",
+        "nic":"nic_roriek",
+        "vm":"vm_roriek",
+        "admin":"jones",
+        "adminPW":"pony@9_72.",
+        "computerName":"vmjones"
+    },
+    "resources": [
+        {
+            "apiVersion": "2018-11-01",
+            "type":"Microsoft.Storage/storageAccounts",
+            "location":"Central US",
+            "sku":{
+                "name":"Standard_LRS"
+            },
+            "kind":"StorageV2",
+            "name":"[variables('store')]"
+        },
+        {
+            "apiVersion": "2018-10-01",
+            "type":"Microsoft.Network/publicIPAddresses",
+            "location":"Central US",
+            "name":"[variables('pip')]",
+            "properties": {
+                "publicIPAllocationMethod":"Dynamic",
+                "idleTimeoutInMinutes":5
+            }
+        },
+        {
+            "apiVersion":"2018-10-01",
+            "type":"Microsoft.Network/virtualNetworks",
+            "name":"[variables('vnet')]",
+            "location":"Central US",
+            "properties":{
+                "addressSpace":{
+                    "addressPrefixes":["10.10.0.0/16"]
+                },
+                "subnets":[
+                    {
+                        "name": "[variables('subnet')]",
+                        "properties":{
+                            "addressPrefix": "10.10.1.0/24"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2018-10-01",
+            "type":"Microsoft.Network/networkInterfaces",
+            "location":"Central US",
+            "name":"[variables('nic')]",
+            "dependsOn":[
+                "[resourceId('Microsoft.Network/publicIpAddresses',variables('pip'))]"
+            ],
+            "properties":{
+                "ipConfigurations":[
+                    {
+                        "name":"ipconf_roriek",
+                        "properties":{
+                            "publicIPAddress":{
+                                "id":"[resourceId('Microsoft.Network/publicIpAddresses',variables('pip'))]"
+                            },
+                            "subnet":{
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets',variables('vnet'),variables('subnet'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type" : "Microsoft.Compute/virtualMachines",
+            "location":"Central US",
+            "apiVersion": "2018-10-01",
+            "properties":{
+                "hardwareProfile":{
+                    "vmSize":"Standard_A2"
+                },
+                "osProfile":{
+                    "adminPassword": "[variables('adminPW')]",
+                    "adminUsername": "[variables('admin')]",
+                    "computerName": "[variables('computerName')]"
+                },
+                "storageProfile":{
+                    "imageReference":{
+                        "publisher": "MicrosoftWindowsServer",
+                        "version": "latest",
+                        "offer": "WindowsServer",
+                        "sku":"[parameters('windowsSku')]"
+                    }
+                },
+                "networkProfile":{
+                    "networkInterfaces":[
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic'))]"
+                        }
+                    ]
+                }
+            },
+            "name":"[variables('vm')]",
+            "dependsOn":[
+                "[resourceId('Microsoft.Network/networkInterfaces',variables('nic'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks',variables('vnet'))]"
+            ]
+        }
+    ]
+}
