@@ -1,0 +1,90 @@
+﻿
+<div ng-app="SimbaForceApp">
+    <div ng-controller='defaultCtrl'>
+        <h1>Simba Force Online</h1>
+        <div class='loading login' ng-hide='data.User.validated'>
+            <div class='loginForm'>
+                <h2>Login:</h2>
+                <label>UserName:</label><input type='text' ng-model="data.User.userName" />
+                <label>PassWord:</label><input type='password' ng-model="data.User.passWord" />
+                <button type='button' class='submissionButton' ng-click='LoginFeature()'>Login</button>
+            </div>
+        </div>
+        <div ng-show='data.User.validated'>
+            <h2>Configure your trading algorithm</h2>
+            <h4>Based on these instrument performance statistics:</h4>
+            <div class='stats'>
+                <div class='specifyTimeFrame'>
+                    <label>Specify A Time Frame:</label><input type='datetime' ng-model='data.specify.instrument.date' />
+                    <button type='button' class='specify' ng-click='specifyTimeFrame("instrument")'>Specify!</button>'
+                </div>
+                <table class='statsTable instrumentStats'>
+                    <thead>
+
+                        <tr>
+                            <th>Instrument</th>
+                            <th>Win %</th>
+                            <th>Profit Margin</th>
+                            <th>Number Long</th>
+                            <th>Number Short</th>
+                            <th>Average Pips></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='instrument in data.instruments'>
+                            <td>{{instrument.name}}</td>
+                            <td>{{instrument.winPct}}</td>
+                            <td>{{instrument.profitMargin}}</td>
+                            <td>{{instrument.numLong}}</td>
+                            <td>{{instrument.numShort}}</td>
+                            <td>{{instrument.averagePips}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4>These country accuracy records:</h4>
+            <div class='stats'>
+                <div class='specifyTimeFrame'>
+                    <label>Specify A Time Frame:</label><input type='datetime' ng-model='data.specify.instrument.date' />
+                    <button type='button' class='specify' ng-click='specifyTimeFrame("country")'>Specify!</button>'
+                </div>
+                <table class='statsTable countryStats'>
+                    <thead>
+
+                        <tr>
+                            <th>Country</th>
+                            <th>Win %</th>
+                            <th>Profit Margin</th>
+                            <th>Number Long</th>
+                            <th>Number Short</th>
+                            <th>Average Pips</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="country in data.countries">
+                            <td>{{country.name}}</td>
+                            <td>{{country.winPct}}</td>
+                            <td>{{country.profitMargin}}</td>
+                            <td>{{country.numLong}}</td>
+                            <td>{{country.numShort}}</td>
+                            <td>{{country.averagePips}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4>Configure Country Allocation Preference</h4>
+            <div class='countryStats allocations'></div>
+            <h4>Configure trade size norms</h4>
+            <div class='tradeSize allocations'></div>
+            <h4>Compose custom rules</h4>
+            <div class='allocations customTradingRules'></div>
+            <h4>Enter one time commands</h4>
+            <div class='customTradingRules oneTimeCommands'></div>
+            <div class='submission'>
+                <h3>Changes made? submit them to be executed!</h3>
+                <button type='button' class='submissionButton'>Submit Changes!</button>
+            </div>
+        </div>
+    </div>
+
+</div>
