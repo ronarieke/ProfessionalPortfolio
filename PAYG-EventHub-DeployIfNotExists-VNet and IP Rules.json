@@ -3,13 +3,6 @@
     "displayName": "DeployIfNotExistsEventHubNetworkRuleSets",
     "policyType": "Custom",
     "mode": "Indexed",
-    "metadata": {
-      "category": "DeployIfNotExists",
-      "createdBy": "87fd8199-7ff8-4959-8c71-ca92073703da",
-      "createdOn": "2019-11-01T20:38:13.5719446Z",
-      "updatedBy": "87fd8199-7ff8-4959-8c71-ca92073703da",
-      "updatedOn": "2019-11-05T23:15:31.0473031Z"
-    },
     "parameters": {
       "allowedIps": {
         "type": "Array",
@@ -139,8 +132,5 @@
         }
       }
     }
-  },
-  "id": "/subscriptions/8dfd8d5e-7c53-4419-88df-f7ddcdb129e2/providers/Microsoft.Authorization/policyDefinitions/f27de643-b56b-4485-82e0-b43b19335c32",
-  "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "f27de643-b56b-4485-82e0-b43b19335c32"
+  }
 }
