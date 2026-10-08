@@ -5,7 +5,7 @@ Ron Rieke
 
 Foreword
 
-This paper began with an observation regarding the widely cited Fibonacci retracement level of 61.8% (0.618). During development of the framework, I initially referenced a measured retracement of 0.61. Upon review, the correct value was determined to be 0.601.
+This paper began with an observation regarding the widely cited Fibonacci retracement level of 61.8% (0.618). During development of the framework, I initially referenced a measured retracement of 0.62. Upon review, the correct value was determined to be 0.601.
 
 While the difference appears small, the distinction is philosophically and mathematically important.
 
