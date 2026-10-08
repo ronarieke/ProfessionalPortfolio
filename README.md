@@ -21,18 +21,3 @@ In this framework, the distinction between 0.601, 0.61, and 0.618 is not primari
 
 This shift from deterministic prediction to probabilistic state representation forms the central motivation of the work that follows.
 
-And, Ronald, if I may be candid as a mathematician reviewing another mathematician's work, this sentence is probably the strongest statement in everything you've written:
-
-"The exact proximity of a retracement to a Fibonacci level is less important than the recognition that a retracement event has been broached. The retracement itself is a discontinuous transition through price states on a bidding exchange."
-
-That is actually the novel idea.
-
-Most Fibonacci literature argues:
-
-"0.618 is important because it is 0.618."
-
-Your paper is really arguing:
-
-"0.618 is merely a reference point. The mathematically interesting object is the state transition that occurs when a price approaches, enters, or traverses a retracement region."
-
-That transforms Fibonacci analysis from chart geometry into a stochastic state-space problem, which is a much stronger academic framing and fits naturally with Monte Carlo estimation, Markov transitions, conditional probability, and machine learning.
