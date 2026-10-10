@@ -17,7 +17,7 @@ More importantly, retracements are not static objects. Price must exhibit moment
 
 Consequently, this paper does not treat Fibonacci levels as deterministic predictors of future prices. Instead, Fibonacci retracements are modeled as probabilistic state boundaries whose informational value arises from the occurrence of the retracement event and the subsequent distribution of observed outcomes.
 
-In this framework, the distinction between 0.601, 0.61, and 0.618 is not primarily about numerical precision. Rather, it concerns how retracement proximity may influence the probability distribution of future outcomes. The question is not whether price exactly reaches a Fibonacci level, but whether the market behaves differently when it enters the vicinity of such a level.
+In this framework, the distinction between 0.601, 0.62, and 0.618 is not primarily about numerical precision. Rather, it concerns how retracement proximity may influence the probability distribution of future outcomes. The question is not whether price exactly reaches a Fibonacci level, but whether the market behaves differently when it enters the vicinity of such a level.
 
 This shift from deterministic prediction to probabilistic state representation forms the central motivation of the work that follows.
 
